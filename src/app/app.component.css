@@ -1,1 +1,11 @@
- 
+h1 {
+    font-size:100px;
+    width:100%;
+    font-weight: 100%;
+    color: rgba(175, 47, 47, 0.15);
+}
+
+input{
+    font-size:2rem !important;
+    font-style: italic !important;
+}

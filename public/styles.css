@@ -1,5 +1,6 @@
  @import "../node_modules/materialize-css/dist/css/materialize.min.css";
 
 body {
-    padding-top:90px;
+        background-color:#f5f5f5;
 }
+
