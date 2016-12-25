@@ -6,7 +6,7 @@
 		"no-unused-variable": true,
 		"curly": true,
 		"class-name": true,
-		"semicolon": ["always"],
+		"semicolon": ["ignore-bound-class-methods","ignore-interfaces"],
 		"triple-equals": true
 	}
 }

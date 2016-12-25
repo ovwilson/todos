@@ -6,7 +6,7 @@ export const RESET_TODO = "RESET_TODO";
 
 const initialState: Todo[] = [];
 
-export const todos: ActionReducer<Todo[]> = (state: Todo[] = [], action: Action) => {
+export const todos: ActionReducer<Todo[]> = (state: Todo[] = initialState, action: Action) => {
     switch (action.type) {
         case ADD_TODO:
             action.payload.id = state.length;
