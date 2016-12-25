@@ -6,11 +6,17 @@
 
         <div class="card-panel hoverable">
             <div class="input-field col s6">
-                <input placeholder="What needs to be done?" id="first_name" type="text" class="validate">
+                <input placeholder="What needs to be done?" id="inputTodo" name="inputTodo" [(ngModel)]="todo"  #inputTodo (keyup.enter)="addTodo()" type="text" class="validate">
             </div>
+            <ul>
+                <li *ngFor="let todo of todos$ | async">
+                    <p> <input type="checkbox" id="chktodo{{todo.id}}" /> <label for="chktodo{{todo.id}}">{{todo.description}}</label>                        </p>
+                </li>
+            </ul>
 
         </div>
     </div>
     <router-outlet></router-outlet>
+    <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
 </main>
 <footer></footer>

@@ -9,3 +9,7 @@ input{
     font-size:2rem !important;
     font-style: italic !important;
 }
+
+.collection{
+    margin:0 !important;
+}

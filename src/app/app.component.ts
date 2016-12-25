@@ -1,4 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { Store } from '@ngrx/store';
+import { Observable } from "rxjs/Observable";
+import { Todo } from "./models/todo";
 
 import "../../public/styles.css";
 import "../rxjs-extensions";
@@ -9,12 +12,22 @@ import "../rxjs-extensions";
     styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-    globals: any;
+    todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
+    todo: string;
 
-    ngOnInit() {
+    constructor(private store: Store<Todo[]>) {
+        this.todos$ = store.select("todos");
+    }
 
+    addTodo() {
+        this.todo !== "" ? this.store.dispatch({ type: "ADD_TODO", payload: { description: this.todo } }) : "";
+        this.resetTodo();
+    }
+
+    resetTodo(){
+        this.todo = "";
     }
 
 }
