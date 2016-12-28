@@ -34,6 +34,7 @@
     "@ngrx/store-log-monitor": "^3.0.2",
     "@types/chai": "^3.4.34",
     "@types/es6-shim": "^0.31.32",
+    "@types/firebase": "^2.4.30",
     "@types/node": "^6.0.53",
     "@types/webpack": "^2.0.0",
     "angular2-router-loader": "^0.3.4",

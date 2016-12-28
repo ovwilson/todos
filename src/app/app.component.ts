@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Observable";
 import { Todo, AppState } from "./models/todo";
@@ -12,10 +12,9 @@ import "./../rxjs-extensions";
     styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
     appState: Observable<AppState> = Observable.of<AppState>();
     todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
-    filter$: Observable<Todo[]> = Observable.of<Todo[]>([]);
     filteredTodos$: Observable<any>;
     filter = SHOW_ALL;
     todo: string = "";
@@ -24,17 +23,15 @@ export class AppComponent {
         this.todos$ = store.select("todos");
         this.filteredTodos$ = store.select("filter");
         this.todos$.subscribe(todos => this.store.dispatch({ type: this.filter, payload: { todos: todos } }));
+    }
 
-        //this.filteredTodos$ = Observable.combineLatest(this.todos$, this.filter$, (todos: Todo[], filter: Todo[]) => {
-        //    return {
-        //       filter:todos.filter(todo => todo)
-        //   }
-        //});
+    ngOnInit(){
+        this.store.dispatch({type:"GET_TODOS"});
     }
 
     addTodo() {
-        this.store.dispatch({ type: "ADD_TODO", payload: { description: this.todo } });
-        this.todo = "";
+        this.store.dispatch({ type: "ADD_TODO", payload: { description: this.todo, complete:false } });
+        this.todo = "";        
     }
 
     toggleTodo(todo: Todo) {
@@ -43,8 +40,7 @@ export class AppComponent {
 
     filterTodo(filter: string) {
         this.filter = filter;
-        this.store.select("todos")
-            .subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
+        this.store.select("todos").subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
     }
 
 }

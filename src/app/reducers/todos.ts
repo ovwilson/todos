@@ -1,15 +1,17 @@
-import { ActionReducer, Action } from '@ngrx/store';
+import { ActionReducer, Action } from "@ngrx/store";
 import { Todo } from "./../models/todo";
-
-export const ADD_TODO = "ADD_TODO";
-export const TOGGLE_TODO = "TOGGLE_TODO";
+import { RECEIVE_GET_TODOS, RECEIVE_ADD_TODO, TOGGLE_TODO } from "./../actions/actions";
 
 const initialState: Todo[] = [];
 
+
+
 export const todos: ActionReducer<Todo[]> = (state: Todo[] = initialState, action: Action) => {
     switch (action.type) {
-        case ADD_TODO:
-            return action.payload.value !== "" ? [...state, { id: Math.floor(Math.random() * 1000), description: action.payload.description, complete: false }] : state;
+        case RECEIVE_GET_TODOS:            
+            return [...state,action.payload];
+        case RECEIVE_ADD_TODO:
+            return [...state, action.payload ];
         case TOGGLE_TODO:
             return state.map(todo => {
                 return todo.id !== action.payload.id ? todo : Object.assign({}, todo, {

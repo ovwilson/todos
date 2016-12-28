@@ -1,7 +1,7 @@
 import { Observable } from "rxjs/Observable";
 
 export interface Todo {
-    id?: number,
+    id?: string,
     description?: string,
     complete?:boolean
 }

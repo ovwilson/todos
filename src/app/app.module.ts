@@ -3,7 +3,10 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
+
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { firebaseEffects } from "./effects/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
@@ -18,14 +21,15 @@ import { AppComponent } from "./app.component";
         RouterModule.forRoot(APPRROUTES, { useHash: true }),
         HttpModule,
         FormsModule,
-    StoreModule.provideStore({todos:todos,filter:filter}),
+        StoreModule.provideStore({ todos: todos, filter: filter }),
         StoreDevtoolsModule.instrumentStore({
             monitor: useLogMonitor({
                 visible: true,
                 position: 'right'
             })
         }),
-        StoreLogMonitorModule
+        StoreLogMonitorModule,
+        EffectsModule.run(firebaseEffects)
     ],
     declarations: [
         AppComponent
