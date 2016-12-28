@@ -9,6 +9,7 @@ import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
 import { APPRROUTES } from "./app.routes";
 import { todos } from "./reducers/todos";
+import { filter } from "./reducers/filter";
 import { AppComponent } from "./app.component";
 
 @NgModule({
@@ -17,7 +18,7 @@ import { AppComponent } from "./app.component";
         RouterModule.forRoot(APPRROUTES, { useHash: true }),
         HttpModule,
         FormsModule,
-        StoreModule.provideStore({ todos: todos }),
+    StoreModule.provideStore({todos:todos,filter:filter}),
         StoreDevtoolsModule.instrumentStore({
             monitor: useLogMonitor({
                 visible: true,
