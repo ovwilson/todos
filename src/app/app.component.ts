@@ -44,7 +44,6 @@ export class AppComponent {
     filterTodo(filter: string) {
         this.filter = filter;
         this.store.select("todos")
-            .do(todos => todos)
             .subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
     }
 
