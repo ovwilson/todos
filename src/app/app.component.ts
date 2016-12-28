@@ -16,20 +16,20 @@ export class AppComponent {
     appState: Observable<AppState> = Observable.of<AppState>();
     todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
     filter$: Observable<Todo[]> = Observable.of<Todo[]>([]);
-    filteredTodos$: Observable<AppState[]> = Observable.of<AppState[]>([]);
+    filteredTodos$: Observable<any>;
     filter = SHOW_ALL;
     todo: string = "";
 
     constructor(private store: Store<Todo[]>) {
         this.todos$ = store.select("todos");
-        this.filter$ = store.select("filter");
-        //this.todos$.subscribe(todos => this.store.dispatch({ type: this.filter, payload: { todos: todos } }));
+        this.filteredTodos$ = store.select("filter");
+        this.todos$.subscribe(todos => this.store.dispatch({ type: this.filter, payload: { todos: todos } }));
 
-        this.filteredTodos$ = Observable.combineLatest(this.todos$, this.filter$, (todos: Array<Todo>, filter: Array<Todo>) => {
-            return {
-                filter:Todo[]
-            }
-        });
+        //this.filteredTodos$ = Observable.combineLatest(this.todos$, this.filter$, (todos: Todo[], filter: Todo[]) => {
+        //    return {
+        //       filter:todos.filter(todo => todo)
+        //   }
+        //});
     }
 
     addTodo() {
@@ -43,8 +43,9 @@ export class AppComponent {
 
     filterTodo(filter: string) {
         this.filter = filter;
-        this.store.dispatch({ type: filter });
-
+        this.store.select("todos")
+            .do(todos => todos)
+            .subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
     }
 
 }

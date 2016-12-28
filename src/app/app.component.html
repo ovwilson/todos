@@ -14,7 +14,7 @@
                 <label for="inputTodo">What needs to be done?</label>
                 <input id="inputTodo" name="inputTodo" [(ngModel)]="todo" #inputTodo (keyup.enter)="addTodo()" type="text" class="validate">
             </div>
-            <div class="input-field col s12" *ngFor="let todo of filteredTodos$.filter | async;">
+            <div class="input-field col s12" *ngFor="let todo of filteredTodos$ | async;">
                 <input type="checkbox" id="chktodo{{todo.id}}" (change)="toggleTodo(todo)" [checked]="todo.complete" />
                 <label for="chktodo{{todo.id}}"><span *ngIf="!todo.complete">{{todo.description}}</span><del *ngIf="todo.complete">{{todo.description}}</del></label>
             </div>
