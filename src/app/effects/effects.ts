@@ -11,8 +11,11 @@ import {
     REMOVE_TODO,
     RECEIVE_REMOVE_TODO,
     TOOGLE_TODO,
-    RECEIVE_TOOGLE_TODO
+    RECEIVE_TOOGLE_TODO,
+    REMOVE_COMPLETED_TODOS
 } from "./../actions/actions";
+
+import "./../../rxjs-extensions";
 
 declare var firebase: any;
 
@@ -32,13 +35,13 @@ export class firebaseEffects {
 
             // Listen for changed values
             firebase.database().ref("/data").on("child_changed", (snapshot) => {
-                console.log("child_changed", snapshot.val());
+                console.log("child_changed:", snapshot.val());
                 this.store.dispatch({ type: RECEIVE_TOOGLE_TODO, payload: { key: snapshot.key, data: snapshot.val() } });
             });
 
             // Listen for Removed values
             firebase.database().ref("/data").on("child_removed", (snapshot) => {
-                console.log("child_removed:", snapshot);
+                console.log("child_removed:", snapshot.val());
                 this.store.dispatch({ type: RECEIVE_REMOVE_TODO, payload: { key: snapshot.key, data: snapshot.val() } });
             });
         });
@@ -54,7 +57,7 @@ export class firebaseEffects {
                         complete: todo.val().complete
                     }));
                 });
-                this.store.dispatch({ type: RECEIVE_GET_TODOS, payload: todos });                
+                this.store.dispatch({ type: RECEIVE_GET_TODOS, payload: todos });
             });
         });
 
@@ -75,5 +78,11 @@ export class firebaseEffects {
         .do((action: Action) => {
             firebase.database().ref("/data").child(action.payload.id).remove();
         });
+
+    @Effect({ dispatch: false }) clearCompletedTodos$ = this.actions$.ofType(REMOVE_COMPLETED_TODOS)
+        .withLatestFrom(this.store, (action, state) => state.todos)
+        .flatMap((todos: Todo[]) => todos)
+        .filter((todo: Todo) => todo.complete)
+        .do((todo) => this.store.dispatch({ type: REMOVE_TODO, payload: todo }));
 
 }

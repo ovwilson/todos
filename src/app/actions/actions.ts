@@ -13,6 +13,7 @@ export const RECEIVE_GET_TODOS = "RECEIVE_GET_TODOS";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const RECEIVE_REMOVE_TODO = "RECEIVE_REMOVE_TODO";
 
+export const REMOVE_COMPLETED_TODOS = "REMOVE_COMPLETED_TODOS";
 export const NOACTION = "NOACTION";
 
 export class NoTodoAction {

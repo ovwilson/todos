@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Observable";
 import { Todo } from "./models/todo";
 import { SHOW_ALL } from "./reducers/filter";
-import { GET_TODOS, LISTEN_TO_TODOS, ADD_TODO, TOOGLE_TODO, REMOVE_TODO } from "./actions/actions";
+import { GET_TODOS, LISTEN_TO_TODOS, ADD_TODO, TOOGLE_TODO, REMOVE_TODO, REMOVE_COMPLETED_TODOS } from "./actions/actions";
 import "../../public/styles.css";
 import "./../rxjs-extensions";
 
@@ -14,19 +14,24 @@ import "./../rxjs-extensions";
 })
 
 export class AppComponent implements OnInit {
+
     todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
     filteredTodos$: Observable<any>;
+    countOfTodosLeft: number;
     filter = SHOW_ALL;
     todo: string = "";
 
     constructor(private store: Store<Todo[]>) {
         this.todos$ = store.select("todos");
         this.filteredTodos$ = store.select("filter");
-        this.todos$.subscribe(todos => this.store.dispatch({ type: this.filter, payload: { todos: todos } }));
+        this.todos$.subscribe(todos => {
+            this.countOfTodosLeft = todos.filter(todo => !todo.complete).length;
+            this.store.dispatch({ type: this.filter, payload: { todos: todos } })
+        });
     }
 
     ngOnInit() {
-        this.store.dispatch({type: LISTEN_TO_TODOS});
+        this.store.dispatch({ type: LISTEN_TO_TODOS });
         // this.store.dispatch({ type: GET_TODOS });
     }
 
@@ -48,8 +53,13 @@ export class AppComponent implements OnInit {
         this.store.dispatch({ type: REMOVE_TODO, payload: todo });
     }
 
-    refreshTodos(){
-        this.store.dispatch({type: GET_TODOS});
+    clearCompleted() {
+        this.store.dispatch({ type: REMOVE_COMPLETED_TODOS });
     }
+
+    refreshTodos() {
+        this.store.dispatch({ type: GET_TODOS });
+    }
+
 
 }

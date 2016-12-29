@@ -3,13 +3,15 @@
     <div class="container">
         <h1 class="center-align">todos</h1>
         <div class="card-panel hoverable">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default waves-effect" (click)="filterTodo('SHOW_ALL')">All</button>
-                <button type="button" class="btn btn-default waves-effect" (click)="filterTodo('SHOW_ACTIVE')">Active</button>
-                <button type="button" class="btn btn-default waves-effect" (click)="filterTodo('SHOW_COMPLETED')">Complete</button>
-                <!-- <button type="button" class="btn btn-default waves-effect" (click)="refreshTodos()">Refresh</button> -->
-            </div>
 
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_ALL')">All</a></li>
+                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_ACTIVE')">Active</a></li>
+                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_COMPLETED')">Completed</a></li>
+                </ul>
+            </div>
+            <br>
             <div class="input-field col s12">
                 <i class="fa fa-angle-down prefix"></i>
                 <label for="inputTodo">What needs to be done?</label>
@@ -21,10 +23,15 @@
                 <del *ngIf="todo.complete">{{todo.description}}</del>
                 </label>
                 <div class="right-align"><a href="javascript:void(0)" (click)="removeTodo(todo)"><i class="fa fa-trash"></i></a></div>
+                <hr />
+            </div>
+            <div class="col s12">
+                <span>{{countOfTodosLeft}} items left</span> 
+                <a class="waves-effect waves-teal btn-flat" (click)="clearCompleted()">Clear Completed</a>
+                <a class="waves-effect waves-teal btn-flat" (click)="refreshTodos()">Refresh</a>
             </div>
         </div>
     </div>
-    <router-outlet></router-outlet>
     <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
 </main>
 

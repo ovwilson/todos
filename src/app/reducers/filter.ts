@@ -10,11 +10,11 @@ const initialState: Todo[] = [];
 export const filter: ActionReducer<Todo[]> = (state: Todo[] = initialState, action: Action) => {
     switch (action.type) {
         case SHOW_ALL:
-            return action.payload.todos.length > 0 ? action.payload.todos.map(todo => todo) : state;
+            return action.payload.todos;
         case SHOW_COMPLETED:
-            return action.payload.todos.length > 0 ? action.payload.todos.filter(todo => todo.complete) : state;
+            return action.payload.todos.filter(todo => todo.complete);
         case SHOW_ACTIVE:
-            return action.payload.todos.length > 0 ? action.payload.todos.filter(todo => !todo.complete) : state;
+            return action.payload.todos.filter(todo => !todo.complete);
          default:
             return state;
     }
