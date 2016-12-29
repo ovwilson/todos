@@ -1,9 +1,7 @@
-import { Observable } from "rxjs/Observable";
-
 export interface Todo {
     id?: string,
     description?: string,
-    complete?:boolean
+    complete?: boolean
 }
 
 export interface AppState {
