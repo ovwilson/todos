@@ -18,7 +18,7 @@ export const todos: ActionReducer<Todo[]> = (state: Todo[] = initialState, actio
         case RECEIVE_TOOGLE_TODO:
             return state.map(todo => {
                 return todo.id !== action.payload.key ? todo : Object.assign({}, todo, {
-                    id: action.payload.id,
+                    id: action.payload.key,
                     description: action.payload.data.description,
                     complete: action.payload.data.complete
                 });
