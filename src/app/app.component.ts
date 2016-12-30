@@ -2,10 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Observable";
 import { Todo } from "./models/todo";
-import { SHOW_ALL } from "./reducers/filter";
+import { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED } from "./reducers/filter";
 import { GET_TODOS, LISTEN_TO_TODOS, ADD_TODO, TOOGLE_TODO, REMOVE_TODO, REMOVE_COMPLETED_TODOS } from "./actions/actions";
 import "../../public/styles.css";
 import "./../rxjs-extensions";
+
+declare var window: any;
 
 @Component({
     selector: "body",
@@ -18,7 +20,7 @@ export class AppComponent implements OnInit {
     todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
     filteredTodos$: Observable<any>;
     countOfTodosLeft: number;
-    filter = SHOW_ALL;
+    filter: string = SHOW_ALL;
     todo: string = "";
 
     constructor(private store: Store<Todo[]>) {
@@ -32,7 +34,11 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch({ type: LISTEN_TO_TODOS });
-        // this.store.dispatch({ type: GET_TODOS });
+        switch (window.location.hash) {
+            case "#active": this.filterTodo(SHOW_ACTIVE); break;
+            case "#completed": this.filterTodo(SHOW_COMPLETED); break;
+            default: break;
+        }
     }
 
     addTodo() {
@@ -46,6 +52,7 @@ export class AppComponent implements OnInit {
 
     filterTodo(filter: string) {
         this.filter = filter;
+        setTimeout(() => window.$("ul.tabs").tabs());
         this.store.select("todos").subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
     }
 

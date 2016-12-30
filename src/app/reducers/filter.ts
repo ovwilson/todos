@@ -5,6 +5,8 @@ export const SHOW_COMPLETED = "SHOW_COMPLETED";
 export const SHOW_ACTIVE = "SHOW_ACTIVE";
 export const SHOW_ALL = "SHOW_ALL";
 
+declare var window: any;
+
 const initialState: Todo[] = [];
 
 export const filter: ActionReducer<Todo[]> = (state: Todo[] = initialState, action: Action) => {
@@ -15,7 +17,7 @@ export const filter: ActionReducer<Todo[]> = (state: Todo[] = initialState, acti
             return action.payload.todos.filter(todo => todo.complete);
         case SHOW_ACTIVE:
             return action.payload.todos.filter(todo => !todo.complete);
-         default:
+        default:
             return state;
     }
 }

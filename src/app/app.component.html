@@ -6,9 +6,9 @@
 
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_ALL')">All</a></li>
-                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_ACTIVE')">Active</a></li>
-                    <li class="tab col s3"><a href="javascript:void(0)" (click)="filterTodo('SHOW_COMPLETED')">Completed</a></li>
+                    <li class="tab col s3"><a target="_self" href="#all" (click)="filterTodo('SHOW_ALL')">All</a></li>
+                    <li class="tab col s3"><a target="_self" href="#active" (click)="filterTodo('SHOW_ACTIVE')">Active</a></li>
+                    <li class="tab col s3"><a target="_self" href="#completed" (click)="filterTodo('SHOW_COMPLETED')">Completed</a></li>
                 </ul>
             </div>
             <br>
@@ -26,7 +26,7 @@
                 <hr />
             </div>
             <div class="col s12">
-                <span>{{countOfTodosLeft}} items left</span> 
+                <span>{{countOfTodosLeft}} items left</span>
                 <a class="waves-effect waves-teal btn-flat" (click)="clearCompleted()">Clear Completed</a>
                 <a class="waves-effect waves-teal btn-flat" (click)="refreshTodos()">Refresh</a>
             </div>
