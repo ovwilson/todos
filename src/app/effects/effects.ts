@@ -29,19 +29,19 @@ export class firebaseEffects {
 
             // Listen for added values
             firebase.database().ref("/data").on("child_added", (snapshot) => {
-                console.log("child_added:", snapshot.val());
+                console.info("child_added:", snapshot.val());
                 this.store.dispatch({ type: RECEIVE_ADD_TODO, payload: { key: snapshot.key, data: snapshot.val() } });
             });
 
             // Listen for changed values
             firebase.database().ref("/data").on("child_changed", (snapshot) => {
-                console.log("child_changed:", snapshot.val());
+                console.info("child_changed:", snapshot.val());
                 this.store.dispatch({ type: RECEIVE_TOOGLE_TODO, payload: { key: snapshot.key, data: snapshot.val() } });
             });
 
             // Listen for Removed values
             firebase.database().ref("/data").on("child_removed", (snapshot) => {
-                console.log("child_removed:", snapshot.val());
+                console.info("child_removed:", snapshot.val());
                 this.store.dispatch({ type: RECEIVE_REMOVE_TODO, payload: { key: snapshot.key, data: snapshot.val() } });
             });
         });
