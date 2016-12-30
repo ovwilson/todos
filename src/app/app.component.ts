@@ -18,7 +18,7 @@ declare var window: any;
 export class AppComponent implements OnInit {
 
     todos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
-    filteredTodos$: Observable<any>;
+    filteredTodos$: Observable<Todo[]> = Observable.of<Todo[]>([]);
     countOfTodosLeft: number;
     filter: string = SHOW_ALL;
     todo: string = "";
@@ -26,10 +26,7 @@ export class AppComponent implements OnInit {
     constructor(private store: Store<Todo[]>) {
         this.todos$ = store.select("todos");
         this.filteredTodos$ = store.select("filter");
-        this.todos$.subscribe(todos => {
-            this.countOfTodosLeft = todos.filter(todo => !todo.complete).length;
-            this.store.dispatch({ type: this.filter, payload: { todos: todos } })
-        });
+        this.setFilter(this.filter);
     }
 
     ngOnInit() {
@@ -41,8 +38,24 @@ export class AppComponent implements OnInit {
         }
     }
 
+    filterTodo(filter: string) {
+        this.setFilter(filter);
+        this.setTabs();
+    }
+
+    setFilter(filter: string) {
+        this.todos$.subscribe(todos => {
+            this.countOfTodosLeft = todos.filter(todo => !todo.complete).length;
+            this.store.dispatch({ type: filter, payload: { todos: todos } })
+        });
+    }
+
     addTodo() {
         this.store.dispatch({ type: ADD_TODO, payload: { description: this.todo, complete: false } });
+        this.resetTodo();
+    }
+
+    resetTodo() {
         this.todo = "";
     }
 
@@ -50,11 +63,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch({ type: TOOGLE_TODO, payload: todo });
     }
 
-    filterTodo(filter: string) {
-        this.filter = filter;
-        setTimeout(() => window.$("ul.tabs").tabs());
-        this.store.select("todos").subscribe(todos => this.store.dispatch({ type: filter, payload: { todos: todos } }));
-    }
+    
 
     removeTodo(todo: Todo) {
         this.store.dispatch({ type: REMOVE_TODO, payload: todo });
@@ -66,6 +75,10 @@ export class AppComponent implements OnInit {
 
     refreshTodos() {
         this.store.dispatch({ type: GET_TODOS });
+    }    
+
+    setTabs() {
+        setTimeout(() => window.$("ul.tabs").tabs());
     }
 
 
