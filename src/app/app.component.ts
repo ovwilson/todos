@@ -8,6 +8,16 @@ import "../../public/styles.css";
 import "./../rxjs-extensions";
 
 declare var window: any;
+declare var firebase : any;
+
+// Initialize Firebase
+const config = {
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    databaseURL: process.env.databaseURL,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messageSenderId
+};
 
 @Component({
     selector: "body",
@@ -24,6 +34,7 @@ export class AppComponent implements OnInit {
     todo: string = "";
 
     constructor(private store: Store<Todo[]>) {
+        firebase.initializeApp(config);
         this.todos$ = store.select("todos");
         this.filteredTodos$ = store.select("filter");
         this.setFilter(this.filter);

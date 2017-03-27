@@ -21,7 +21,7 @@ import { AppComponent } from "./app.component";
         StoreModule.provideStore({ todos: todos, filter: filter }),
         StoreDevtoolsModule.instrumentStore({
             monitor: useLogMonitor({
-                visible: true,
+                visible: false,
                 position: 'right'
             })
         }),
